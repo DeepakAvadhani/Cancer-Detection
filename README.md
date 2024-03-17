@@ -1,1 +1,1 @@
-# Cancer-Detection
+#Skin-Cancer Detection Using machine learning
