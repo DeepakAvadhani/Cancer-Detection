@@ -6,6 +6,16 @@ from tensorflow.keras.metrics import top_k_categorical_accuracy
 from tensorflow.keras.preprocessing import image
 import cv2
 
+url = "https://github.com/DeepakAvadhani/Cancer-Detection/blob/main/skin_cancer_detection_model.h5"
+filename = "skin_cancer_detection_model.h5"
+
+# Download if not exists
+if not os.path.exists(filename):
+    r = requests.get(url, allow_redirects=True)
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+
+
 # Load the trained model
 def load_model():
     def top_2_accuracy(y_true, y_pred):
@@ -14,7 +24,7 @@ def load_model():
     def top_3_accuracy(y_true, y_pred):
         return top_k_categorical_accuracy(y_true, y_pred, k=3)
 
-    model = tf.keras.models.load_model("C:\\Users\\Deepak Avadhani\\Desktop\\Projects\\Freelancing\\CancerDetection\\skin_cancer_detection_model.h5", custom_objects={'top_2_accuracy': top_2_accuracy, 'top_3_accuracy': top_3_accuracy})
+    model = tf.keras.models.load_model(filename, custom_objects={'top_2_accuracy': top_2_accuracy, 'top_3_accuracy': top_3_accuracy})
     return model
 
 # Define the labels
@@ -114,3 +124,4 @@ else:
         if cancer_info:
             st.write("Additional Information about the Cancer Type:")
             st.write(cancer_info)
+
